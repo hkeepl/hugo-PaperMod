@@ -19,6 +19,25 @@
       {{- partial "edit_post.html" . -}}
       {{- partial "post_canonical.html" . -}}
 
+      <!-- post-meta show categories -->
+      {{- $categories := .Language.Params.Taxonomies.category | default "categories" }}
+      {{- $cnt := 0 }}
+      {{- range ($.GetTerms $categories) }}
+        {{- $cnt = add $cnt 1 }}
+      {{- end }}
+      {{- if gt $cnt 0 }}
+        {{- $i := 0 }}
+        <div class="meta-item">&nbsp·&nbsp
+          {{- range ($.GetTerms $categories) }}
+            <a href="{{ .Permalink }}">{{ .LinkTitle }}</a>
+            {{ $i = add $i 1 }}
+            {{- if lt $i $cnt}}
+              <span>,</span>
+            {{- end }}
+          {{- end }}
+        </div>
+      {{- end }}
+
       <!-- busuanzi -->
       {{ if .Site.Params.busuanzi.enable -}}
       <div class="meta-item">&nbsp·&nbsp
